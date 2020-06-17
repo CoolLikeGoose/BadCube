@@ -4,8 +4,10 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed = 800f;
     [SerializeField] private float junpForce;
+    [SerializeField] private int jumpsAvaible = 1;
 
     private bool jumpAbility = false;
+    private int jumpsLeft = 1;
 
     private Rigidbody2D rb;
 
@@ -18,7 +20,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && jumpAbility)
         {
-            jumpAbility = false;
+            jumpsLeft--;
+            if (jumpsLeft == 0) { jumpAbility = false; }
+
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0, junpForce), ForceMode2D.Impulse);
         }
@@ -32,5 +36,6 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         jumpAbility = true;
+        jumpsLeft = jumpsAvaible;
     }
 }
